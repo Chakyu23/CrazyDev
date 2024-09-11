@@ -1,31 +1,15 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useCharacterStore } from './stores/CharacterStore.ts';
+import Adventures from './components/Adventures.vue';
+import CharacterSidebar from './components/CharacterSidebar.vue';
+import HomeBar from './components/HomeBar.vue';
 </script>
 
 <template>
-  <HomeBar></HomeBar>
+  <HomeBar />
   <div class="container">
     <main>
-      <div class="adventures">
-        <button class="adventure">Aventure 1</button>
-        <button class="adventure" disabled>Aventure 2 (à venir)</button>
-        <button class="adventure" disabled>Aventure 3 (à venir)</button>
-      </div>
-      <aside class="sidebar">
-        <div class="create-character">
-          <h2>Création de perso</h2>
-          <input v-model="newCharacter" placeholder="Nom du perso" />
-          <button @click="addCharacter">Ajouter</button>
-        </div>
-        <div class="character-list">
-          <h2>Liste perso</h2>
-          <ul>
-            <li v-for="character in characters" :key="character">{{ character }}</li>
-          </ul>
-        </div>
-        <button class="play-button">Play</button>
-      </aside>
+      <Adventures />
+      <CharacterSidebar />
     </main>
   </div>
 </template>
@@ -44,5 +28,4 @@
     width: 80%;
     height: 80vh; /* Assure que le main prend toute la hauteur du conteneur */
   }
-
 </style>

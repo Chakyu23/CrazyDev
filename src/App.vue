@@ -1,47 +1,85 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+  import { ref } from 'vue';
+  import { useCharacterStore } from './stores/CharacterStore.ts';
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="container">
+    <header>
+      <h1>Titre Jeux</h1>
+    </header>
+    <main>
+      <div class="adventures">
+        <button class="adventure">Aventure 1</button>
+        <button class="adventure" disabled>Aventure 2 (à venir)</button>
+        <button class="adventure" disabled>Aventure 3 (à venir)</button>
+      </div>
+      <aside class="sidebar">
+        <div class="create-character">
+          <h2>Création de perso</h2>
+          <input v-model="newCharacter" placeholder="Nom du perso" />
+          <button @click="addCharacter">Ajouter</button>
+        </div>
+        <div class="character-list">
+          <h2>Liste perso</h2>
+          <ul>
+            <li v-for="character in characters" :key="character">{{ character }}</li>
+          </ul>
+        </div>
+        <button class="play-button">Play</button>
+      </aside>
+    </main>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   header {
+    background-color: #ccc;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+  }
+  main {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    justify-content: space-between;
+    width: 80%;
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
+  .adventures {
+    flex: 1;
+    text-align: center;
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  .adventure {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    width: 80%;
   }
-}
+  .sidebar {
+    flex: 0.3;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .create-character input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+  }
+  .play-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    text-align: center;
+  }
 </style>

@@ -1,15 +1,13 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useCharacterStore } from './stores/CharacterStore.ts';
+  import HomeBar from './components/HomeBar.vue'
 </script>
 
 <template>
+  <HomeBar></HomeBar>
   <div class="container">
-    <header>
-      <h1>Titre Jeux</h1>
-    </header>
     <main>
       <div class="adventures">
+
         <button class="adventure">Aventure 1</button>
         <button class="adventure" disabled>Aventure 2 (à venir)</button>
         <button class="adventure" disabled>Aventure 3 (à venir)</button>
@@ -82,4 +80,5 @@
     border: none;
     text-align: center;
   }
+
 </style>

@@ -28,4 +28,5 @@ import HomeBar from './components/HomeBar.vue';
     width: 80%;
     height: 80vh; /* Assure que le main prend toute la hauteur du conteneur */
   }
+
 </style>

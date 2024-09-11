@@ -11,7 +11,7 @@
   };
   </script>
   
-  <style scoped>
+<style scoped>
     .create-character {
       flex: 0 0 20%; /* Prend 20% de la hauteur de son conteneur parent */
       display: flex;
@@ -24,12 +24,7 @@
     }
 
     button {
-  padding: 10px 20px;
-  background-color: #c70039;
-  width: 180px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-  </style>
+    width: 180px;
+    cursor: pointer;
+    }
+</style>

@@ -72,17 +72,7 @@ function DelToken() {
   font-family: Handjet,sans-serif;
 }
 
-.auth-actions button {
-  padding: 10px 20px;
-  background-color: #c70039;
-  width: 140px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.auth-actions button:hover {
-  background-color: #900c3f;
+.auth-actions {
+  width: 120px;
 }
 </style>

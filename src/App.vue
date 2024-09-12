@@ -3,15 +3,13 @@ import Adventures from './components/Adventures.vue'
 import CharacterSidebar from './components/CharacterSidebar.vue'
 import HomeBar from './components/HomeBar.vue'
 import Grille from '@/components/GrilleComponent.vue'
-
 </script>
 
 <template>
   <HomeBar />
   <div class="container">
     <main>
-      <Grille />
-
+      
     </main>
   </div>
 </template>

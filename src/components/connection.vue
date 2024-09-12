@@ -1,62 +1,30 @@
 <template>
-  <div class="container">
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="username">pseudo</label>
-        <input type="text" id="username" v-model="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">mot de passe</label>
-        <input type="password" id="password" v-model="password" required>
-      </div>
+    <div class="container">
+      <form>
+        <div class="form-group">
+          <label for="username">pseudo</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">mot de passe</label>
+          <input type="password" id="password" required>
+        </div>
+        <div class="button-container">
+          <button type="submit">connection</button>
+        </div>
+      </form>
+      <p>Vous n'avez pas de compte ?</p>
       <div class="button-container">
-        <button type="submit">connection</button>
+        <button>inscrivez vous</button>
       </div>
-    </form>
-    <p>Vous n'avez pas de compte ?</p>
-    <div class="button-container">
-      <button @click="handleSignUp">inscrivez-vous</button>
     </div>
-  </div>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
-  },
-  methods: {
-    async handleLogin() {
-      try {
-        const response = await axios.post('http://localhost:3000/login', {
-          pseudo: this.username,
-          mdp: this.password
-        });
-
-        // Si la connexion est réussie, définir le cookie
-        if (response.data.token) {
-          document.cookie = `Token-CrazyDevRpg=${response.data.token}; path=/;`;
-          alert('Connexion réussie !');
-          // Rediriger ou mettre à jour l'interface en conséquence
-        } else {
-          alert('Pseudo ou mot de passe incorrect.');
-        }
-      } catch (error) {
-        console.error('Erreur lors de la connexion :', error);
-        alert('Erreur lors de la connexion.');
-      }
-    },
-    handleSignUp() {
-      // Rediriger vers la page d'inscription ou gérer l'inscription ici
-    }
-  }
-};
-</script>
+  </template>
+  
+  <script>
+  export default {
+    name: 'LoginPage'
+  };
+  </script>
   
   <style scoped>
     .container {

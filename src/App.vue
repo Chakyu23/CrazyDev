@@ -13,7 +13,7 @@ import Grille from '@/components/GrilleComponent.vue'
 <template>
   <HomeBar />
     <main>
-      <connection />
+      <creaPerso />
     </main>
 </template>
 

@@ -4,7 +4,7 @@ import cors from 'cors';
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors()); // Déplacez ceci ici pour activer CORS pour toutes les routes
 
 // Créer une connexion à la base de données avec pool
 const pool = mysql.createPool({
@@ -19,14 +19,21 @@ const pool = mysql.createPool({
 
 // Route pour créer un personnage
 app.post('/create-character', async (req, res) => {
-  const { nom, att, def, esq, pv, type } = req.body;
+  const { nom, att, def, esq, pv, image } = req.body;
+  
+  console.log('Données reçues:', { nom, att, def, esq, pv, image });
+
+  // Vérifie que tous les champs nécessaires sont présents
+  if (!nom || !att || !def || !esq || !pv || !image) {
+    return res.status(400).json({ error: 'Tous les champs sont requis.' });
+  }
+
   try {
-    // Obtenir une connexion depuis le pool
     const [results] = await pool.query(
-      'INSERT INTO combattant (nom, att, def, esq, pv, type, score) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [nom, att, def, esq, pv, type, 0]
+      'INSERT INTO combattant (nom, att, def, esq, pv, type, image, score) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [nom, att, def, esq, pv, 'Joueur', image || null, 0]
     );
-    res.status(201).json({ id: results.insertId, nom, att, def, esq, pv, type, score: 0 });
+    res.status(201).json({ id: results.insertId, nom, att, def, esq, pv, type: 'Joueur', image: image || null, score: 0 });
   } catch (error) {
     console.error('Erreur lors de la création du personnage:', error);
     res.status(500).json({ error: 'Erreur lors de la création du personnage.' });

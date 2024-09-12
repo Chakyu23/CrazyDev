@@ -2,27 +2,34 @@
   <HomeBar />
   <main>
     <div class="character-creation-card">
-      <div class="character-image">Image</div>
+      <div class="character-image">
+        <img :src="character.image" alt="Character Image" v-if="character.image">
+        <div v-else>Image</div>
+      </div>
       <div class="character-info">
         <div class="attribute">
-          <label for="name">Nom</label>
-          <input type="text" id="name" name="name" v-model="character.name">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" name="nom" v-model="character.nom">
         </div>
         <div class="attribute">
-          <label for="attack">Attaque</label>
-          <input type="number" id="attack" name="attack" v-model.number="character.attack" @input="updateRemainingPoints" :min="-25" :max="124">
+          <label for="att">Attaque</label>
+          <input type="number" id="att" name="att" v-model.number="character.att" @input="updateRemainingPoints" :min="-25" :max="124">
         </div>
         <div class="attribute">
-          <label for="dodge">Esquive</label>
-          <input type="number" id="dodge" name="dodge" v-model.number="character.dodge" @input="updateRemainingPoints" :min="-25" :max="124">
+          <label for="esq">Esquive</label>
+          <input type="number" id="esq" name="esq" v-model.number="character.esq" @input="updateRemainingPoints" :min="-25" :max="124">
         </div>
         <div class="attribute">
-          <label for="defense">Défense</label>
-          <input type="number" id="defense" name="defense" v-model.number="character.defense" @input="updateRemainingPoints" :min="-25" :max="124">
+          <label for="def">Défense</label>
+          <input type="number" id="def" name="def" v-model.number="character.def" @input="updateRemainingPoints" :min="-25" :max="124">
         </div>
         <div class="attribute">
-          <label for="hp">PV</label>
-          <input type="number" id="hp" name="hp" v-model.number="character.hp" @input="updateRemainingPoints" :min="1" :max="125">
+          <label for="pv">PV</label>
+          <input type="number" id="pv" name="pv" v-model.number="character.pv" @input="updateRemainingPoints" :min="1" :max="125">
+        </div>
+        <div class="attribute">
+          <label for="image">Image URL</label>
+          <input type="text" id="image" name="image" v-model="character.image">
         </div>
         <div class="points">Il vous reste {{ remainingPoints }} points à attribuer</div>
 
@@ -36,72 +43,66 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
-  setup() {
-    const totalBasePoints = ref(25); // Points de base à attribuer
-    const remainingPoints = ref(25);
-    const character = ref({
-      name: '',
-      attack: 0,
-      dodge: 0,
-      defense: 0,
-      hp: 1 // Les PV doivent commencer à 1 ou plus
-    });
-
-    const updateRemainingPoints = () => {
+  data() {
+    return {
+      totalBasePoints: 25, // Points de base à attribuer
+      remainingPoints: 25,
+      character: {
+        nom: '', // Correspond au champ 'nom' en base de données
+        att: 0,  // Correspond au champ 'att' en base de données
+        esq: 0,  // Correspond au champ 'esq' en base de données
+        def: 0,  // Correspond au champ 'def' en base de données
+        pv: 1,   // Correspond au champ 'pv' en base de données
+        image: '' // Correspond au champ 'image' en base de données
+      }
+    };
+  },
+  methods: {
+    updateRemainingPoints() {
       // Récupère les valeurs ou considère comme 0 si vide (ou 1 pour les PV)
-      const { attack, dodge, defense, hp } = character.value;
+      const att = this.character.att || 0;
+      const esq = this.character.esq || 0;
+      const def = this.character.def || 0;
+      const pv = this.character.pv || 1; // Les PV ne peuvent pas être inférieurs à 1
 
       // Limite chaque statistique à un minimum de -25 et un maximum spécifique pour PV et les autres stats
-      character.value.attack = Math.max(Math.min(attack, 124), -25);
-      character.value.dodge = Math.max(Math.min(dodge, 124), -25);
-      character.value.defense = Math.max(Math.min(defense, 124), -25);
-      character.value.hp = Math.max(Math.min(hp, 125), 1); // Les PV doivent être compris entre 1 et 125
+      this.character.att = Math.max(Math.min(att, 124), -25);
+      this.character.esq = Math.max(Math.min(esq, 124), -25);
+      this.character.def = Math.max(Math.min(def, 124), -25);
+      this.character.pv = Math.max(Math.min(pv, 125), 1); // Les PV doivent être compris entre 1 et 125
 
       // Calcule le total des points positifs et négatifs
       const totalPositivePoints = 
-        (character.value.attack > 0 ? character.value.attack : 0) +
-        (character.value.dodge > 0 ? character.value.dodge : 0) +
-        (character.value.defense > 0 ? character.value.defense : 0) +
-        (character.value.hp > 0 ? character.value.hp : 0); // On inclut les PV dans le calcul
+        (this.character.att > 0 ? this.character.att : 0) +
+        (this.character.esq > 0 ? this.character.esq : 0) +
+        (this.character.def > 0 ? this.character.def : 0) +
+        (this.character.pv > 0 ? this.character.pv : 0); // On inclut les PV dans le calcul
 
       const totalNegativePoints = 
-        (character.value.attack < 0 ? Math.abs(character.value.attack) : 0) +
-        (character.value.dodge < 0 ? Math.abs(character.value.dodge) : 0) +
-        (character.value.defense < 0 ? Math.abs(character.value.defense) : 0) +
-        (character.value.hp < 0 ? Math.abs(character.value.hp) : 0); // Les PV ne devraient jamais être négatifs
+        (this.character.att < 0 ? Math.abs(this.character.att) : 0) +
+        (this.character.esq < 0 ? Math.abs(this.character.esq) : 0) +
+        (this.character.def < 0 ? Math.abs(this.character.def) : 0) +
+        (this.character.pv < 0 ? Math.abs(this.character.pv) : 0); // Les PV ne devraient jamais être négatifs
 
       // Calcul des points restants
-      remainingPoints.value = totalBasePoints.value - totalPositivePoints + totalNegativePoints;
-    };
+      this.remainingPoints = this.totalBasePoints - totalPositivePoints + totalNegativePoints;
+    },
+    async createCharacter() {
+  try {
+    console.log('Données du personnage avant l\'envoi :', this.character);
 
-    const createCharacter = async () => {
-      try {
-        const response = await axios.post('http://localhost:3000/create-character', {
-          nom: character.value.name,
-          att: character.value.attack,
-          def: character.value.defense,
-          esq: character.value.dodge,
-          pv: character.value.hp,
-          type: 'Joueur' // Comme précisé, nous ne créons que des Joueurs pour l'instant
-        });
-        console.log('Personnage créé avec succès:', response.data);
-        alert('Personnage créé avec succès!');
-      } catch (error) {
-        console.error('Erreur lors de la création du personnage:', error);
-        alert('Erreur lors de la création du personnage.');
-      }
-    };
-
-    return {
-      remainingPoints,
-      character,
-      updateRemainingPoints,
-      createCharacter
-    };
+    const response = await axios.post('http://localhost:3000/create-character', this.character);
+    alert('Personnage créé avec succès !');
+    console.log(response.data);
+  } catch (error) {
+    console.error('Erreur lors de la création du personnage :', error.response ? error.response.data : error.message);
+    alert('Erreur lors de la création du personnage.');
+  }
+}
   }
 });
 </script>
@@ -129,6 +130,11 @@ main {
   height: 300px;
   background-color: red;
   margin-right: 20px;
+}
+
+.character-image img {
+  max-width: 100%;
+  height: auto;
 }
 
 .character-info {

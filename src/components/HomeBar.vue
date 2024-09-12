@@ -1,34 +1,33 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from 'vue'
 
 const isLoggedIn = ref(false)
 
-const Token_name = "Token-CrazyDevRpg"
+const Token_name = 'Token-CrazyDevRpg'
 
 function GetToken() {
-  let value = `; ${document.cookie}`;
-  let parts = value.split(`; ${Token_name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+  let value = `; ${document.cookie}`
+  let parts = value.split(`; ${Token_name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
 }
 
 function SetToken(value, days) {
-  let expires = ""
+  let expires = ''
   if (days) {
     let date = new Date()
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-    expires = "; expires=" + date.toUTCString()
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+    expires = '; expires=' + date.toUTCString()
   }
-  document.cookie = Token_name + "=" + (value || "") + expires + "; path=/"
+  document.cookie = Token_name + '=' + (value || '') + expires + '; path=/'
 }
 
 function handleAuth() {
-  isLoggedIn.value = isLoggedIn.value == false;
+  isLoggedIn.value = isLoggedIn.value == false
 }
 
 function DelToken() {
-  document.cookie = Token_name + '=; Max-Age=-99999999;';
+  document.cookie = Token_name + '=; Max-Age=-99999999;'
 }
-
 </script>
 
 <template>
@@ -41,9 +40,8 @@ function DelToken() {
       <h1>Dark Ultimate RPG</h1>
     </div>
     <div class="auth-actions">
-      <button @click="handleAuth">{{ isLoggedIn ? 'Déconnexion' : 'Connexion'}}</button>
+      <button @click="handleAuth">{{ isLoggedIn ? 'Déconnexion' : 'Connexion' }}</button>
     </div>
-
   </header>
 </template>
 
@@ -53,7 +51,8 @@ function DelToken() {
   justify-content: space-around;
   align-items: center;
   margin-top: -10px;
-  margin-left: -8px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   margin-bottom: 10px;
   padding: 5px 8px;
   background-color: #581845;
@@ -69,7 +68,7 @@ function DelToken() {
   margin: 0;
   font-size: 80px;
   font-weight: 500;
-  font-family: Handjet,sans-serif;
+  font-family: Handjet, sans-serif;
 }
 
 .auth-actions {

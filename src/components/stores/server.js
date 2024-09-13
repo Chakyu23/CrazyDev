@@ -40,5 +40,22 @@ app.post('/create-character', async (req, res) => {
   }
 });
 
+app.post('/login', async (req, res) => {
+  const { pseudo, mdp } = req.body;
+  try {
+    const [user] = await pool.query('SELECT * FROM user WHERE pseudo = ? AND mdp = ?', [pseudo, mdp]);
+    if (user.length > 0) {
+      // Crée un token simple (ici on utilise simplement l'ID utilisateur, mais idéalement, utiliser JWT)
+      const token = `user-${user[0].id}`;
+      res.status(200).json({ token });
+    } else {
+      res.status(401).json({ error: 'Pseudo ou mot de passe incorrect.' });
+    }
+  } catch (error) {
+    console.error('Erreur lors de la connexion :', error);
+    res.status(500).json({ error: 'Erreur serveur lors de la connexion.' });
+  }
+});
+
 // Démarrer le serveur
 app.listen(3000, () => console.log('Server running on port 3000'));

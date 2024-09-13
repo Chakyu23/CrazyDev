@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
 
-const isLoggedIn = ref(false)
+const isLoggedIn = ref(false);
 
-const Token_name = "Token-CrazyDevRpg"
+const Token_name = "Token-CrazyDevRpg";
 
 function GetToken() {
   let value = `; ${document.cookie}`;
@@ -12,38 +12,38 @@ function GetToken() {
 }
 
 function SetToken(value, days) {
-  let expires = ""
+  let expires = "";
   if (days) {
-    let date = new Date()
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-    expires = "; expires=" + date.toUTCString()
+    let date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = Token_name + "=" + (value || "") + expires + "; path=/"
+  document.cookie = Token_name + "=" + (value || "") + expires + "; path=/";
 }
 
 function handleAuth() {
-  isLoggedIn.value = isLoggedIn.value == false;
+  isLoggedIn.value = !!GetToken(); // Vérifier si un token existe
 }
 
 function DelToken() {
   document.cookie = Token_name + '=; Max-Age=-99999999;';
+  isLoggedIn.value = false;
 }
 
+handleAuth();
 </script>
 
 <template>
   <header class="main-header">
     <div class="logo">
-      <!-- Utilise une image ou un texte pour le logo -->
       <img src="@/assets/logo.webp" alt="Logo du site" />
     </div>
     <div class="site-title">
       <h1>Dark Ultimate RPG</h1>
     </div>
     <div class="auth-actions">
-      <button @click="handleAuth">{{ isLoggedIn ? 'Déconnexion' : 'Connexion'}}</button>
+      <button @click="DelToken">{{ isLoggedIn ? 'Déconnexion' : 'Connexion' }}</button>
     </div>
-
   </header>
 </template>
 

@@ -7,10 +7,23 @@ import Grille from '@/components/GrilleComponent.vue'
 
 <template>
   <HomeBar />
-  <div class="container">
-    <main>
-      
-    </main>
-  </div>
+  <main>
+    <Grille />
+  </main>
 </template>
 
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Assure que le conteneur prend toute la hauteur de la page */
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  height: 80vh; /* Assure que le main prend toute la hauteur du conteneur */
+}
+</style>

@@ -13,7 +13,18 @@ import Grille from '@/components/GrilleComponent.vue'
 <template>
   <HomeBar />
     <main>
-      <creaPerso />
+      <connection />
+      <!--<Adventures />
+      <CharacterSidebar />-->
+      <!--<creaPerso />-->
     </main>
 </template>
+
+<!--<style scoped>
+  main {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+</style>-->
 

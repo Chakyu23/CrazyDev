@@ -15,6 +15,7 @@ import CharacterList from './CharacterList.vue';
 <style scoped>
   .sidebar {
     height: 94vh; /* Prend toute la hauteur de la page */
+    width:25%;
     background-color: #836464;
     padding: 20px;
     border-radius: 8px;
